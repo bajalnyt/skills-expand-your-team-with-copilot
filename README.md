@@ -29,6 +29,10 @@
 
 *There's no better way to learn than building things!* 🚀
 
+### 🛠️ Developer Setup
+
+For information on setting up and running this project locally, please refer to the [Development Guide](docs/how-to-develop.md).
+
 </div>
 
 ---
