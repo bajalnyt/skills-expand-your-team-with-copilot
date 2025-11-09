@@ -472,6 +472,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Function to generate share URLs
+  function generateShareUrls(activityName, activityDescription) {
+    const pageUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent(`Check out ${activityName} at Mergington High School: ${activityDescription}`);
+    const emailSubject = encodeURIComponent(`Join ${activityName} at Mergington High School`);
+    const emailBody = encodeURIComponent(`I thought you might be interested in this activity:\n\n${activityName}\n${activityDescription}\n\nLearn more at: ${window.location.href}`);
+    
+    return {
+      twitter: `https://twitter.com/intent/tweet?text=${shareText}&url=${pageUrl}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`,
+      email: `mailto:?subject=${emailSubject}&body=${emailBody}`
+    };
+  }
+
+  // Function to handle social sharing
+  function handleShare(platform, activityName, activityDescription) {
+    const shareUrls = generateShareUrls(activityName, activityDescription);
+    const url = shareUrls[platform];
+    
+    if (platform === 'email') {
+      window.location.href = url;
+    } else {
+      window.open(url, '_blank', 'width=600,height=400');
+    }
+  }
+
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
@@ -569,6 +596,21 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="social-share-container">
+        <span class="share-label">Share:</span>
+        <button class="share-button twitter" data-platform="twitter" data-activity="${name}" title="Share on Twitter">
+          <span>𝕏</span>
+        </button>
+        <button class="share-button facebook" data-platform="facebook" data-activity="${name}" title="Share on Facebook">
+          <span>f</span>
+        </button>
+        <button class="share-button linkedin" data-platform="linkedin" data-activity="${name}" title="Share on LinkedIn">
+          <span>in</span>
+        </button>
+        <button class="share-button email" data-platform="email" data-activity="${name}" title="Share via Email">
+          <span>✉</span>
+        </button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +628,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for social share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-button");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const platform = button.dataset.platform;
+        handleShare(platform, name, details.description);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
