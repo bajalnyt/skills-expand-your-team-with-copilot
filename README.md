@@ -31,7 +31,7 @@
 
 ### 🛠️ Developer Setup
 
-Want to set up and run this project locally? Check out the [Development Guide](docs/how-to-develop.md) for detailed instructions!
+For information on setting up and running this project locally, please refer to the [Development Guide](docs/how-to-develop.md).
 
 </div>
 
